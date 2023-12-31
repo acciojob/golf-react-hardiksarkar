@@ -1,42 +1,27 @@
-import React, { Component, useState } from "react";
-import '../styles/App.css';
+import React,{useState} from 'react'
+import "../styles/App.css"
 
-class App extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            renderBall: false,
-            posi : 0,
-            ballPosition: { left: "0px" }
-        };
-        this.renderChoice = this.renderBallOrButton.bind(this)
-        this.buttonClickHandler = this.buttonClickHandler.bind(this)
-    };
+export default function App() {
+let [ballrender,setBallrender] = useState(false);
+let [right,setRight] = useState(0);
 
-    buttonClickHandler() {
-   
-   }
-    renderBallOrButton() {
-		if (this.state.renderBall) {
-		    return <div className="ball" style={this.state.ballPosition}></div>
-		} else {
-		    return <button onClick={this.buttonClickHandler} >Start</button>
-		}
+    function startFunc(){
+        setBallrender(true);
     }
 
-    // bind ArrowRight keydown event
-    componentDidMount() {
-      
+    const handleKeyDown=(e)=>{
+        console.log("right");
+        if(e.key === 'ArrowRight' || e.key === 'Enter'){
+            setRight(right-5);
+        }
     }
 
-    render() {
-        return (
-            <div className="playground">
-                {this.renderBallOrButton()}
-            </div>
-        )
-    }
+
+  return (
+    <div className='playground' onKeyDown={(e)=>handleKeyDown(e)}>
+      {
+        ballrender?(<div className='ball' style={{right:`${right}px`}} onKeyDown={handleKeyDown} tabIndex="0"></div>):(<button className='start' onClick={startFunc}>Start</button>)
+      }
+    </div>
+  )
 }
-
-
-export default App;
